@@ -3,6 +3,8 @@
 // You can delete the contents of the file once you have understood how it
 // works.
 
+import { fetchUserData } from "./utils/fetchUserData.js";
+
 // export function makeFetchRequest() {
 //   return fetch("https://example.com/test");
 // }
@@ -26,4 +28,26 @@ fetchBtn.addEventListener("click", async () => {
     .filter(Boolean);
   fetchBtn.disabled = true;
   fetchBtn.textContent = "Fetching.....";
+  try {
+    for (const username of usernames) {
+      try {
+        const data = await fetchUserData(username);
+        userData.push(data);
+      } catch (error) {
+        console.warn(error.message);
+        alert(error.message);
+        continue;
+      }
+    }
+    if (userData.length === 0) {
+      alert("You have no User/s Data");
+      return;
+    }
+  } catch (error) {
+    alert("Error when fetching userdata");
+    console.error(err);
+  } finally {
+    fetchBtn.disabled = false;
+    fetchBtn.textContent = "Show Leaderboard";
+  }
 });
