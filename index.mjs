@@ -26,7 +26,9 @@ fetchBtn.addEventListener("click", async () => {
     .split(",")
     .map((ele) => ele.trim())
     .filter(Boolean);
+  //reset area
   userData = [];
+  languageSelectorDiv.style.display = "none";
   fetchBtn.disabled = true;
   fetchBtn.textContent = "Fetching.....";
   try {
@@ -48,7 +50,7 @@ fetchBtn.addEventListener("click", async () => {
       Object.keys(ele.ranks.languages)
     );
     const languages = ["overall", ...new Set(tempLanguages)];
-    console.log(languages);
+    populateLanguageDropDown(languages);
   } catch (error) {
     alert("Error when fetching userdata");
     console.error(err);
@@ -57,3 +59,13 @@ fetchBtn.addEventListener("click", async () => {
     fetchBtn.textContent = "Show Leaderboard";
   }
 });
+function populateLanguageDropDown(languages) {
+  languageSelectorDiv.style.display = "block";
+  languageSelect.innerHTML = "";
+  languages.forEach((lang) => {
+    const option = document.createElement("option");
+    option.value = lang;
+    option.textContent = lang.charAt(0).toUpperCase() + lang.slice(1);
+    languageSelect.appendChild(option);
+  });
+}
