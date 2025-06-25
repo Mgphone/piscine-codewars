@@ -26,6 +26,7 @@ fetchBtn.addEventListener("click", async () => {
     .split(",")
     .map((ele) => ele.trim())
     .filter(Boolean);
+  userData = [];
   fetchBtn.disabled = true;
   fetchBtn.textContent = "Fetching.....";
   try {
@@ -43,6 +44,11 @@ fetchBtn.addEventListener("click", async () => {
       alert("You have no User/s Data");
       return;
     }
+    const tempLanguages = userData.flatMap((ele) =>
+      Object.keys(ele.ranks.languages)
+    );
+    const languages = ["overall", ...new Set(tempLanguages)];
+    console.log(languages);
   } catch (error) {
     alert("Error when fetching userdata");
     console.error(err);
